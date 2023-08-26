@@ -1,30 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { Header } from "../../components/layout/Header";
+import { Footer } from "../../components/layout/Footer";
+import { BiSolidUserDetail } from "react-icons/bi";
+import { CustomInput } from "../../components/custom-input/CustomInput";
+import { signInAdminAction } from "./userAction";
 
 const Signin = () => {
+  const [form, setForm] = useState({});
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    signInAdminAction(form);
+  };
+  const inputs = [
+    {
+      label: "Email",
+      name: "email",
+      required: true,
+      placeholder: "Sam@gmail",
+      type: "email",
+    },
+
+    {
+      label: "Password",
+      name: "password",
+      required: true,
+      placeholder: "*****",
+      type: "password",
+      minLength: "6",
+    },
+  ];
+
   return (
     <div>
-      <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
+      <Header />
+      <section className="main ">
+        <Form
+          className=" m-5 p-5 border shadow-lg w-10"
+          onSubmit={handleOnSubmit}
+        >
+          <h1>
+            <BiSolidUserDetail />
+            Admin Login Portal
+          </h1>
+          <hr />
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+          {inputs.map((item, i) => (
+            <CustomInput key={i} {...item} onChange={handleOnChange} />
+          ))}
+
+          <div className="d-grid">
+            <Button variant="primary" type="submit">
+              Login
+            </Button>
+          </div>
+        </Form>
+      </section>
+      <Footer />
     </div>
   );
 };
