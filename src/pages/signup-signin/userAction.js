@@ -1,7 +1,10 @@
 import { toast } from "react-toastify";
 import { loginUser } from "../../helper/axios";
+import { setUser } from "./userSlice.js";
 
-export const signInAdminAction = async (userObj) => {
-  const { status, message } = await loginUser(userObj);
+export const signInAdminAction = (userObj) => async (dispatch) => {
+  const { status, message, user } = await loginUser(userObj);
   toast[status](message);
+
+  user?._id && dispatch(setUser(user));
 };

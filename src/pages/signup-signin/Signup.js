@@ -7,9 +7,14 @@ import { Footer } from "../../components/layout/Footer";
 import { CustomInput } from "../../components/custom-input/CustomInput";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { postUser } from "../../helper/axios";
+import { useSelector } from "react-redux";
 
 const Signup = () => {
-  const [form, setForm] = useState({});
+  const { user } = useSelector((state) => state.userInfo);
+
+  const [form, setForm] = useState({
+    role: "student",
+  });
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -110,16 +115,27 @@ const Signup = () => {
         >
           <h1>
             <BiSolidUserDetail />
-            Add New Admin
+            Create New Account {user?.role === "admin" && "For Admin"}
           </h1>
           <hr />
+          {user?.role === "admin" && (
+            <Form.Group className="mb-3">
+              <Form.Label> Select User Type </Form.Label>
+              <Form.Select onChange={handleOnChange}>
+                <option value=""> --select--</option>
+                <option value="">Admin</option>
+                <option value=""> Student</option>
+              </Form.Select>
+            </Form.Group>
+          )}
+
           {inputs.map((item, i) => (
             <CustomInput key={i} {...item} onChange={handleOnChange} />
           ))}
 
           <div className="d-grid">
             <Button variant="primary" type="submit">
-              Add New Admin
+              Create New Account
             </Button>
           </div>
         </Form>
