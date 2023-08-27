@@ -11,6 +11,7 @@ import BurrowHistory from "./pages/Burrow-history/BurrowHistory.js";
 import Books from "./pages/Books/Books";
 import Profile from "./pages/Profile/Profile";
 import Students from "./pages/Students/Students";
+import { NewBookForm } from "./components/book-comp/NewBookForm";
 
 function App() {
   return (
@@ -42,6 +43,14 @@ function App() {
           element={
             <PrivateRoute>
               <Books />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/book/new"
+          element={
+            <PrivateRoute>
+              <NewBookForm />
             </PrivateRoute>
           }
         />
