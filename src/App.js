@@ -12,8 +12,21 @@ import Books from "./pages/Books/Books";
 import Profile from "./pages/Profile/Profile";
 import Students from "./pages/Students/Students";
 import { NewBookForm } from "./components/book-comp/NewBookForm";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchBookAction } from "./pages/Books/bookAction";
+import { EditBookForm } from "./components/book-comp/EditBookForm";
+import BookLanding from "./pages/Books/BookLanding";
 
 function App() {
+  const dispatch = useDispatch();
+
+  // fetch books
+
+  useEffect(() => {
+    dispatch(fetchBookAction());
+  }, [dispatch]);
+
   return (
     <div className="">
       <Routes>
@@ -22,6 +35,8 @@ function App() {
 
         {/* private routes  */}
         <Route path="/signup" element={<Signup />} />
+        <Route path="/book/:_id" element={<BookLanding />} />
+
         <Route
           path="/dashboard"
           element={
@@ -51,6 +66,14 @@ function App() {
           element={
             <PrivateRoute>
               <NewBookForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/book/edit/:_id"
+          element={
+            <PrivateRoute>
+              <EditBookForm />
             </PrivateRoute>
           }
         />

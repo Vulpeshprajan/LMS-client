@@ -12,3 +12,30 @@
   margin-top: 1rem;
   font-weight: bold;
 }
+
+.carousel img {
+  height: 60vh;
+}
+
+.left-name {
+  /* border: 1px solid grey; */
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  font-size: 2rem;
+  background: rgb(99, 113, 237);
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.review {
+  display: flex;
+  /* flex-wrap: wrap; */
+}
+
+.right-review {
+  width: calc(100% - 100px);
+}

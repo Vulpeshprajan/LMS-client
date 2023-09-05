@@ -45,3 +45,41 @@ export const postBook = async (obj) => {
     };
   }
 };
+
+export const fetchBooks = async () => {
+  try {
+    const { data } = await axios.get(bookAPI);
+
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
+
+export const updateBook = async (obj) => {
+  try {
+    const { data } = await axios.put(bookAPI, obj);
+
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
+export const deleteBook = async (_id) => {
+  try {
+    const { data } = await axios.delete(bookAPI + "/" + _id);
+
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};

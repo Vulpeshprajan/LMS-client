@@ -22,8 +22,8 @@ export const NewBookForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    console.log(form);
     dispatch(postBookAction(form));
+    setForm({});
   };
 
   const inputs = [
