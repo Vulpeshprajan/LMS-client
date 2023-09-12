@@ -9,8 +9,8 @@ const getUserIdFromLocalStorage = () => {
   const str = localStorage.getItem("persist:userInfo");
   if (str) {
     const userInfo = JSON.parse(str);
-    if (userInfo.user) {
-      const user = JSON.parse(userInfo.user);
+    if (userInfo?.user) {
+      const user = JSON.parse(userInfo?.user);
       return user?._id;
     }
   }
@@ -48,7 +48,11 @@ export const loginUser = async (userData) => {
 
 export const postBook = async (obj) => {
   try {
-    const { data } = await axios.post(bookAPI, obj);
+    const { data } = await axios.post(bookAPI, obj, {
+      headers: {
+        Authorization: getUserIdFromLocalStorage(),
+      },
+    });
 
     return data;
   } catch (error) {
@@ -104,7 +108,11 @@ export const deleteBook = async (_id) => {
 // #===================== Burrow
 export const postBurrow = async (obj) => {
   try {
-    const { data } = await axios.post(burrowAPI, obj);
+    const { data } = await axios.post(burrowAPI, obj, {
+      headers: {
+        Authorization: getUserIdFromLocalStorage(),
+      },
+    });
 
     return data;
   } catch (error) {
@@ -117,6 +125,23 @@ export const postBurrow = async (obj) => {
 export const fetchBurrow = async (obj) => {
   try {
     const { data } = await axios.get(burrowAPI, {
+      headers: {
+        Authorization: getUserIdFromLocalStorage(),
+      },
+    });
+
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
+};
+
+export const returnBurrow = async (obj) => {
+  try {
+    const { data } = await axios.put(burrowAPI, obj, {
       headers: {
         Authorization: getUserIdFromLocalStorage(),
       },
