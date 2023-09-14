@@ -17,9 +17,17 @@ export const ReviewForm = ({ selectedReview }) => {
     });
   };
 
+  const handleOnSubmit = (e) => {
+    e.preventDefault()
+
+    console.log(selectedReview, form)
+
+
+  }
+
   return (
     <div>
-      <Form>
+      <Form onSubmit= {handleOnSubmit}>
         <CustomInput
           label="Title"
           name="title"
