@@ -4,8 +4,9 @@ import { Header } from "../../components/layout/Header";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { postBurrow } from "../../helper/axios";
+
 import { addBurrowAction } from "../Burrow-history/burrowAction.js";
+import { Stars } from "../../components/star/Stars";
 
 const BookLanding = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const BookLanding = () => {
 
   const { books } = useSelector((state) => state.bookInfo);
   const { user } = useSelector((state) => state.userInfo);
+  const { reviews } = useSelector((state) => state.reviewInfo);
 
   const { thumbnail, title, author, year, summary, isAvailable, dueDate } =
     books.find((item) => item._id === _id) || {};
@@ -34,6 +36,14 @@ const BookLanding = () => {
       dispatch(addBurrowAction(obj));
     }
   };
+
+  const reviewList = reviews.filter(
+    ({ bookId, status }) => bookId === _id && status === "active"
+  );
+
+  const star =
+    reviewList.reduce((acc, item) => acc + +item.star, 0) / reviewList.length;
+  console.log(reviewList, star);
   return (
     <div>
       <Header />
@@ -41,14 +51,17 @@ const BookLanding = () => {
         <Container>
           <Row>
             <Col md="5">
-              <img src={thumbnail} alt="" $ $width="100%" />
+              <img src={thumbnail} alt="" width="100%" />
             </Col>
             <Col md="7">
               <h1>{title}</h1>
               <p>
                 {author} - {year}
               </p>
-              <p>5 star</p>
+              <p>
+                {" "}
+                <Stars num={star} />
+              </p>
               <p>{summary}</p>
 
               {user?._id ? (
@@ -81,18 +94,21 @@ const BookLanding = () => {
               <h3>Reviews</h3>
               <hr />
               <div className="review-list">
-                <div className="review  pt-4 px-4  gap-3">
-                  <div className="left-name">PA</div>
-                  <div className="right-review">
-                    <h3>Amazing book loved it!</h3>
-                    <div>5 star</div>
-                    <p>
-                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                      Cum voluptatum natus eum consequatur voluptas,{" "}
-                    </p>
-                    <div>- Prem Acharya</div>
+                {reviewList.map(({ _id, title, message, star, userName }) => (
+                  <div key={_id} className="review  pt-4 px-4  gap-3">
+                    <div className="left-name">
+                      {userName[0].toUpperCase(0)}
+                    </div>
+                    <div className="right-review">
+                      <h3>{title}</h3>
+                      <div>
+                        <Stars num={star} />
+                      </div>
+                      <p>{message}</p>
+                      <div>- {userName}</div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             </Col>
           </Row>

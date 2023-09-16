@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { CustomInput } from "../custom-input/CustomInput.js";
 import { Button, Form } from "react-bootstrap";
 import { AiFillStar } from "react-icons/ai";
+import { postReviewAction } from "../../pages/review/reviewAction.js";
+import { useDispatch } from "react-redux";
+
 export const ReviewForm = ({ selectedReview }) => {
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState({
     status: "inactive",
     star: 5,
@@ -18,21 +23,31 @@ export const ReviewForm = ({ selectedReview }) => {
   };
 
   const handleOnSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    console.log(selectedReview, form)
+    const { _id, bookId, bookName, userId, userName } = selectedReview;
 
+    const obj = {
+      burrowHistoryId: _id,
+      bookId,
+      bookName,
+      userId,
+      userName,
+      ...form,
+    };
 
-  }
+    dispatch(postReviewAction(obj));
+  };
 
   return (
     <div>
-      <Form onSubmit= {handleOnSubmit}>
+      <Form onSubmit={handleOnSubmit}>
         <CustomInput
           label="Title"
           name="title"
           placeholder="Best book I have ever read"
           onChange={handleOnChange}
+          required
         />
 
         <Form.Group className="mb-3">
@@ -68,6 +83,7 @@ export const ReviewForm = ({ selectedReview }) => {
               type="radio"
               name="star"
               id="s3"
+              required
             />
             <label htmlFor="s3">
               <AiFillStar />

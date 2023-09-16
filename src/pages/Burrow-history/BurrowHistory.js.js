@@ -66,6 +66,8 @@ const BurrowHistory = () => {
               <td>
                 {item.userId === user._id && !item.isRetured ? (
                   <Button onClick={() => handleOnReturn(item)}> Return </Button>
+                ) : item?.reviewGiven ? (
+                  "Reviewed already"
                 ) : (
                   <Button
                     variant="success"
